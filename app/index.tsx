@@ -1,7 +1,14 @@
+import { View, Text, Button } from "tamagui";
+import { Appearance, useColorScheme } from "react-native";
 import { Link } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { IconMoon, IconSun } from "@tabler/icons-react-native";
 
 export default function Index() {
+    const colorScheme = useColorScheme();
+
+    const changeTheme = () =>
+        Appearance.setColorScheme(colorScheme === "dark" ? "light" : "dark");
+
     return (
         <View
             style={{
@@ -10,21 +17,25 @@ export default function Index() {
                 alignItems: "center",
             }}
         >
-            <Text style={styles.title}>title</Text>
-            <Link href={"/information"} style={styles.link}>
-                Go to information
+            <Text fontWeight={"bold"} fontSize={80}>
+                title
+            </Text>
+            <Link href={"/information"}>
+                <Text color={"azure"}>Go to information</Text>
             </Link>
+            <Text>{colorScheme}</Text>
+            <Button
+                onPress={changeTheme}
+                icon={
+                    colorScheme === "dark" ? (
+                        <IconMoon size={22} />
+                    ) : (
+                        <IconSun size={22} />
+                    )
+                }
+            >
+                Change Theme
+            </Button>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    title: {
-        fontSize: 80,
-        fontWeight: "bold",
-        color: "white",
-    },
-    link: {
-        color: "cyan",
-    },
-});

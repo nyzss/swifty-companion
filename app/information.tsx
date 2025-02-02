@@ -1,9 +1,9 @@
-import { Text, View } from "react-native";
+import { Text, View } from "tamagui";
 
 export default function Information() {
     return (
         <View>
-            <Text style={{ color: "white" }}>hello world hahaha</Text>
+            <Text>hello world hahaha</Text>
         </View>
     );
 }
