@@ -10,7 +10,7 @@ export default function Index() {
                 alignItems: "center",
             }}
         >
-            <Text style={styles.title}>This is a title</Text>
+            <Text style={styles.title}>title</Text>
             <Link href={"/information"} style={styles.link}>
                 Go to information
             </Link>
@@ -22,8 +22,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 80,
         fontWeight: "bold",
+        color: "white",
     },
     link: {
-        color: "blue",
+        color: "cyan",
     },
 });
