@@ -2,6 +2,7 @@ import { View, Text, Button } from "tamagui";
 import { Appearance, useColorScheme } from "react-native";
 import { Link } from "expo-router";
 import { IconMoon, IconSun } from "@tabler/icons-react-native";
+import * as SecureStore from "expo-secure-store";
 
 export default function Index() {
     const colorScheme = useColorScheme();
@@ -35,6 +36,18 @@ export default function Index() {
                 }
             >
                 Change Theme
+            </Button>
+            <Button
+                onPress={() => {
+                    SecureStore.setItemAsync(
+                        "access_token",
+                        "test_access_token" + new Date().toString()
+                    ).then(() => {
+                        console.log("Secure store changed");
+                    });
+                }}
+            >
+                Change secure store
             </Button>
         </View>
     );
