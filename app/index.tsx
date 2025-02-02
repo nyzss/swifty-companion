@@ -1,9 +1,11 @@
 import { IconMoon, IconSun } from "@tabler/icons-react-native";
 import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import * as SecureStore from "expo-secure-store";
 import { Appearance, useColorScheme } from "react-native";
 import { Button, Text, View } from "tamagui";
+import { router } from "expo-router";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -70,9 +72,22 @@ export default function Index() {
             if (res.type === "success") {
                 const { code } = res.params;
 
-                getAccessToken(code).then((res) => {
+                getAccessToken(code).then(async (res) => {
                     if (res) {
+                        await SecureStore.setItemAsync(
+                            "access_token",
+                            res.access_token
+                        );
+                        await SecureStore.setItemAsync(
+                            "refresh_token",
+                            res.refresh_token
+                        );
+                        await SecureStore.setItemAsync(
+                            "raw",
+                            JSON.stringify(res)
+                        );
                         console.log("TOKEN", res);
+                        router.replace("/information");
                     }
                 });
             }
