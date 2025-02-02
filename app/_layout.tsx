@@ -13,7 +13,8 @@ export default function RootLayout() {
                 <Stack
                     screenOptions={{
                         headerStyle: {
-                            backgroundColor: "#232323",
+                            backgroundColor:
+                                scheme === "dark" ? "#191919" : "#f0f0f0",
                         },
                         headerTintColor: "#fff",
                         headerTitleStyle: {
@@ -25,8 +26,25 @@ export default function RootLayout() {
                         },
                     }}
                 >
-                    <Stack.Screen name="index" />
-                    <Stack.Screen name="information" />
+                    <Stack.Screen
+                        name="index"
+                        options={{
+                            title: "Auth",
+                            // headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="information"
+                        options={{
+                            title: "Information",
+                        }}
+                    />
+                    <Stack.Screen
+                        name="settings"
+                        options={{
+                            title: "Settings",
+                        }}
+                    />
                 </Stack>
             </Theme>
         </TamaguiProvider>
