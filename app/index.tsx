@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
-import { Button, Text, View } from "tamagui";
-import * as WebBrowser from "expo-web-browser";
-import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
-import { Appearance, useColorScheme } from "react-native";
 import { IconMoon, IconSun } from "@tabler/icons-react-native";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
+import * as WebBrowser from "expo-web-browser";
+import React, { useEffect, useState } from "react";
+import { Appearance, useColorScheme } from "react-native";
+import { Button, Text, View } from "tamagui";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Index() {
     const colorScheme = useColorScheme();
+    const [error, setError] = useState<boolean>(false);
 
     const changeTheme = () =>
         Appearance.setColorScheme(colorScheme === "dark" ? "light" : "dark");
@@ -16,20 +17,63 @@ export default function Index() {
     const [request, response, promptAsync] = useAuthRequest(
         {
             clientId: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_ID || "",
-            clientSecret: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_SECRET || "",
             scopes: ["public"],
             redirectUri: makeRedirectUri(),
         },
         {
             authorizationEndpoint: "https://api.intra.42.fr/oauth/authorize",
-            tokenEndpoint: "https://api.intra.42.fr/oauth/token",
         }
     );
+
+    const getAccessToken = async (code: string): Promise<Token | null> => {
+        setError(false);
+        try {
+            const formData = new FormData();
+            const params = {
+                grant_type: "authorization_code",
+                code: code,
+                client_id: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_ID || "",
+                client_secret:
+                    process.env.EXPO_PUBLIC_OAUTH2_CLIENT_SECRET || "",
+                redirect_uri: makeRedirectUri(),
+            };
+
+            Object.entries(params).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+
+            const res = await fetch(`https://api.intra.42.fr/oauth/token`, {
+                method: "POST",
+                body: formData,
+            });
+
+            console.log("res text: ", await res.text());
+
+            if (!res.ok) {
+                throw new Error("Failed to get access token");
+            }
+
+            const data = await res.json();
+            setError(false);
+            return data;
+        } catch (error) {
+            setError(true);
+            setTimeout(() => {
+                setError(false);
+            }, 2500);
+        }
+        return null;
+    };
 
     useEffect(() => {
         if (response?.type === "success") {
             const { code } = response.params;
-            console.log("code", code);
+
+            getAccessToken(code).then((res) => {
+                if (res) {
+                    console.log("TOKEN", res);
+                }
+            });
         }
     }, [response]);
 
@@ -52,6 +96,27 @@ export default function Index() {
                 >
                     Login with 42
                 </Button>
+                {error && (
+                    <View>
+                        <Text
+                            color="tomato"
+                            marginTop={"$4"}
+                            marginHorizontal={"auto"}
+                            fontSize={"$5"}
+                        >
+                            Failed to get access token
+                        </Text>
+                        <Text
+                            marginHorizontal={"auto"}
+                            color="$color10"
+                            marginTop={"$1"}
+                            fontSize={"$2"}
+                        >
+                            Please try again later or contact the developer if
+                            the issue persists.
+                        </Text>
+                    </View>
+                )}
             </View>
             <Button onPress={changeTheme} marginTop={"auto"}>
                 {colorScheme === "dark" ? (
