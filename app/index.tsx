@@ -47,35 +47,37 @@ export default function Index() {
                 body: formData,
             });
 
-            console.log("res text: ", await res.text());
-
+            const data = await res.json();
             if (!res.ok) {
-                throw new Error("Failed to get access token");
+                throw new Error(data.error_description);
             }
 
-            const data = await res.json();
             setError(false);
             return data;
         } catch (error) {
             setError(true);
             setTimeout(() => {
                 setError(false);
-            }, 2500);
+            }, 5000);
         }
         return null;
     };
 
-    useEffect(() => {
-        if (response?.type === "success") {
-            const { code } = response.params;
+    const OAuthLogin = async () => {
+        if (request) {
+            const res = await promptAsync();
 
-            getAccessToken(code).then((res) => {
-                if (res) {
-                    console.log("TOKEN", res);
-                }
-            });
+            if (res.type === "success") {
+                const { code } = res.params;
+
+                getAccessToken(code).then((res) => {
+                    if (res) {
+                        console.log("TOKEN", res);
+                    }
+                });
+            }
         }
-    }, [response]);
+    };
 
     return (
         <View
@@ -92,7 +94,7 @@ export default function Index() {
                     size={"$5"}
                     fontWeight={"500"}
                     disabled={!request}
-                    onPress={() => promptAsync()}
+                    onPress={OAuthLogin}
                 >
                     Login with 42
                 </Button>
