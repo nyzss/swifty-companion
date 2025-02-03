@@ -1,8 +1,6 @@
 import { View, Text, Button } from "tamagui";
 import { Appearance, useColorScheme } from "react-native";
-import { Link } from "expo-router";
 import { IconLogout, IconMoon, IconSun } from "@tabler/icons-react-native";
-import * as SecureStore from "expo-secure-store";
 import { logout } from "@/lib/auth";
 
 export default function Index() {
@@ -22,10 +20,6 @@ export default function Index() {
             <Text fontWeight={"bold"} fontSize={80}>
                 title
             </Text>
-            <Link href={"/information"} replace>
-                <Text color={"azure"}>Go to information</Text>
-            </Link>
-            <Text>{theme}</Text>
             <Button
                 onPress={changeTheme}
                 icon={
@@ -35,20 +29,9 @@ export default function Index() {
                         <IconSun size={22} />
                     )
                 }
+                fontWeight={"bold"}
             >
                 Change Theme
-            </Button>
-            <Button
-                onPress={() => {
-                    SecureStore.setItemAsync(
-                        "access_token",
-                        "test_access_token" + new Date().toString()
-                    ).then(() => {
-                        console.log("Secure store changed");
-                    });
-                }}
-            >
-                Change secure store
             </Button>
             <Button
                 onPress={logout}
