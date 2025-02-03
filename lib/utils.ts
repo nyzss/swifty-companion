@@ -29,7 +29,9 @@ export const getAccessToken = async (code: string): Promise<Token | null> => {
             code: code,
             client_id: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_ID || "",
             client_secret: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_SECRET || "",
-            redirect_uri: makeRedirectUri(),
+            redirect_uri: makeRedirectUri({
+                path: "information",
+            }),
         };
 
         Object.entries(params).forEach(([key, value]) => {
@@ -43,6 +45,7 @@ export const getAccessToken = async (code: string): Promise<Token | null> => {
 
         const data = await res.json();
         if (!res.ok) {
+            console.error(data);
             throw new Error(data.error_description);
         }
 
