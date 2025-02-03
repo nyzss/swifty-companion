@@ -7,7 +7,7 @@ import { Button, Card, Image, Input, Label, Text, View, XStack } from "tamagui";
 
 export default function Find() {
     const [search, setSearch] = useState("");
-    const [users, setUsers] = useState<BaseUser[]>([]);
+    const [users, setUsers] = useState<BaseUser[] | null>(null);
     const theme = useColorScheme();
 
     const handleSubmit = async () => {
@@ -37,20 +37,42 @@ export default function Find() {
                     <IconSearch color={theme === "dark" ? "white" : "black"} />
                 </Button>
             </XStack>
-            <Text>{search}</Text>
             <FlashList
                 data={users}
+                ListEmptyComponent={() => (
+                    <View marginVertical={"$4"}>
+                        <Text>
+                            {users?.length === 0 && search
+                                ? "No user found"
+                                : "Search for a user"}
+                        </Text>
+                    </View>
+                )}
                 renderItem={({ item }) => (
-                    <Card>
-                        <XStack alignItems="center">
-                            <Text>{item.login}</Text>
+                    <Card
+                        padded
+                        elevate
+                        bordered
+                        marginVertical={"$3"}
+                        onPress={() => {
+                            console.log(item);
+                        }}
+                    >
+                        <XStack
+                            alignItems="center"
+                            justifyContent="space-between"
+                        >
+                            <Text fontWeight={"bold"} fontSize={"$6"}>
+                                {item.login}
+                            </Text>
                             <Image
+                                borderRadius={8}
                                 source={{
                                     uri:
                                         item.image.versions.small ||
                                         item.image.link,
-                                    width: 100,
-                                    height: 100,
+                                    width: 70,
+                                    height: 70,
                                 }}
                             />
                         </XStack>
