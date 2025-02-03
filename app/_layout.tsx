@@ -51,19 +51,12 @@ export default function RootLayout() {
                         name="index"
                         options={{
                             title: "Auth",
-                            // headerShown: false,
                         }}
                     />
                     <Stack.Screen
-                        name="information"
+                        name="(app)"
                         options={{
-                            title: "Information",
-                        }}
-                    />
-                    <Stack.Screen
-                        name="settings"
-                        options={{
-                            title: "Settings",
+                            title: "Companion",
                         }}
                     />
                 </Stack>

@@ -85,21 +85,6 @@ export default function Information() {
                                 <Text>test</Text>
                             </View>
                         </Card>
-                        <Button
-                            onPress={logout}
-                            marginTop={"auto"}
-                            marginBottom={"$7"}
-                            themeInverse
-                            alignSelf="center"
-                            icon={
-                                <IconLogout
-                                    color={theme === "dark" ? "dark" : "white"}
-                                    size={22}
-                                />
-                            }
-                        >
-                            <Text fontWeight={"bold"}>Logout</Text>
-                        </Button>
                     </View>
                 ))}
         </View>
