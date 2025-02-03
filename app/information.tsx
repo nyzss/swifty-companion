@@ -1,11 +1,24 @@
-import { Card, Image, Spinner, Text, View, XStack, YStack } from "tamagui";
-import * as SecureStore from "expo-secure-store";
-import { Link, router } from "expo-router";
-import { useEffect, useState } from "react";
+import { logout } from "@/lib/auth";
 import { getInformation } from "@/lib/utils";
+import { IconLogout } from "@tabler/icons-react-native";
+import { Link, router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+import { useEffect, useState } from "react";
+import { useColorScheme } from "react-native";
+import {
+    Button,
+    Card,
+    Image,
+    Spinner,
+    Text,
+    View,
+    XStack,
+    YStack,
+} from "tamagui";
 
 export default function Information() {
     const [user, setUser] = useState<User>();
+    const theme = useColorScheme();
 
     useEffect(() => {
         const accessToken = SecureStore.getItem("access_token");
@@ -35,8 +48,8 @@ export default function Information() {
                 </View>
             )) ||
                 (user && (
-                    <View flex={1}>
-                        <Card marginVertical={"$3"}>
+                    <View flex={1} paddingHorizontal={"$4"}>
+                        <Card marginVertical={"$3"} bordered elevate>
                             <XStack
                                 alignItems="center"
                                 justifyContent="space-between"
@@ -62,20 +75,31 @@ export default function Information() {
                                 />
                             </XStack>
                         </Card>
-                        <Text>hello world hahaha</Text>
-                        <Text>
-                            {SecureStore.getItem("access_token") || "none"}
-                        </Text>
-
-                        <Link
-                            href={"/"}
-                            replace
-                            onPress={() =>
-                                SecureStore.deleteItemAsync("access_token")
+                        <Card bordered elevate>
+                            <Card.Header>
+                                <Text fontWeight={"bold"} fontSize={"$4"}>
+                                    Information
+                                </Text>
+                            </Card.Header>
+                            <View paddingHorizontal={"$4"} paddingBottom={"$4"}>
+                                <Text>test</Text>
+                            </View>
+                        </Card>
+                        <Button
+                            onPress={logout}
+                            marginTop={"auto"}
+                            marginBottom={"$7"}
+                            themeInverse
+                            alignSelf="center"
+                            icon={
+                                <IconLogout
+                                    color={theme === "dark" ? "dark" : "white"}
+                                    size={22}
+                                />
                             }
                         >
-                            <Text color={"azure"}>Logout</Text>
-                        </Link>
+                            <Text fontWeight={"bold"}>Logout</Text>
+                        </Button>
                     </View>
                 ))}
         </View>

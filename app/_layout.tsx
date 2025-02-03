@@ -37,7 +37,7 @@ export default function RootLayout() {
                             backgroundColor:
                                 scheme === "dark" ? "#191919" : "#f0f0f0",
                         },
-                        headerTintColor: "#fff",
+                        headerTintColor: scheme === "dark" ? "#fff" : "#000",
                         headerTitleStyle: {
                             fontWeight: "bold",
                         },
