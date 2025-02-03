@@ -10,7 +10,7 @@
         "newArchEnabled": true,
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.okoca.swifty-companion"
+            "bundleIdentifier": "com.okoca.companion42"
         },
         "android": {
             "adaptiveIcon": {

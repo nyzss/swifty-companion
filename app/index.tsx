@@ -6,6 +6,7 @@ import * as SecureStore from "expo-secure-store";
 import { Appearance, useColorScheme } from "react-native";
 import { Button, Text, View } from "tamagui";
 import { router } from "expo-router";
+import { getAccessToken } from "@/lib/utils";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -20,50 +21,14 @@ export default function Index() {
         {
             clientId: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_ID || "",
             scopes: ["public"],
-            redirectUri: makeRedirectUri(),
+            redirectUri: makeRedirectUri({
+                path: "information",
+            }),
         },
         {
             authorizationEndpoint: "https://api.intra.42.fr/oauth/authorize",
         }
     );
-
-    const getAccessToken = async (code: string): Promise<Token | null> => {
-        setError(false);
-        try {
-            const formData = new FormData();
-            const params = {
-                grant_type: "authorization_code",
-                code: code,
-                client_id: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_ID || "",
-                client_secret:
-                    process.env.EXPO_PUBLIC_OAUTH2_CLIENT_SECRET || "",
-                redirect_uri: makeRedirectUri(),
-            };
-
-            Object.entries(params).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-
-            const res = await fetch(`https://api.intra.42.fr/oauth/token`, {
-                method: "POST",
-                body: formData,
-            });
-
-            const data = await res.json();
-            if (!res.ok) {
-                throw new Error(data.error_description);
-            }
-
-            setError(false);
-            return data;
-        } catch (error) {
-            setError(true);
-            setTimeout(() => {
-                setError(false);
-            }, 5000);
-        }
-        return null;
-    };
 
     const OAuthLogin = async () => {
         if (request) {
@@ -72,24 +37,26 @@ export default function Index() {
             if (res.type === "success") {
                 const { code } = res.params;
 
-                getAccessToken(code).then(async (res) => {
-                    if (res) {
-                        await SecureStore.setItemAsync(
-                            "access_token",
-                            res.access_token
-                        );
-                        await SecureStore.setItemAsync(
-                            "refresh_token",
-                            res.refresh_token
-                        );
-                        await SecureStore.setItemAsync(
-                            "raw",
-                            JSON.stringify(res)
-                        );
-                        console.log("TOKEN", res);
-                        router.replace("/information");
-                    }
-                });
+                const accessToken = await getAccessToken(code);
+                if (accessToken) {
+                    await SecureStore.setItemAsync(
+                        "access_token",
+                        accessToken.access_token
+                    );
+                    await SecureStore.setItemAsync(
+                        "refresh_token",
+                        accessToken.refresh_token
+                    );
+                    await SecureStore.setItemAsync(
+                        "raw",
+                        JSON.stringify(accessToken)
+                    );
+                    console.log("TOKEN", accessToken);
+                    router.replace("/information");
+                } else {
+                    setError(true);
+                    setTimeout(() => setError(false), 5000);
+                }
             }
         }
     };

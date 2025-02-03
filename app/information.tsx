@@ -17,6 +17,8 @@ export default function Information() {
                 console.log("FETCHED_DATA", data);
                 if (data) {
                     setUser(data);
+                } else if (data === null) {
+                    router.replace("/");
                 }
             });
         }
@@ -65,7 +67,13 @@ export default function Information() {
                             {SecureStore.getItem("access_token") || "none"}
                         </Text>
 
-                        <Link href={"/"} replace>
+                        <Link
+                            href={"/"}
+                            replace
+                            onPress={() =>
+                                SecureStore.deleteItemAsync("access_token")
+                            }
+                        >
                             <Text color={"azure"}>Logout</Text>
                         </Link>
                     </View>

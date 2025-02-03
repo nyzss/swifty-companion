@@ -4,6 +4,7 @@ import { defaultConfig } from "@tamagui/config/v4";
 import { useColorScheme } from "react-native";
 import { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
+import { makeRedirectUri } from "expo-auth-session";
 
 const config = createTamagui(defaultConfig);
 
@@ -11,6 +12,12 @@ export default function RootLayout() {
     const scheme = useColorScheme();
 
     useEffect(() => {
+        console.log(
+            "id",
+            makeRedirectUri({
+                path: "information",
+            })
+        );
         const accessToken = SecureStore.getItem("access_token");
         const refreshToken = SecureStore.getItem("refresh_token");
 

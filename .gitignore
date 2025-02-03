@@ -2,6 +2,7 @@
 
 .env
 ios
+sample.json
 
 # dependencies
 node_modules/
