@@ -153,14 +153,14 @@ interface LanguageUser {
     created_at: string;
 }
 
-interface User {
+interface BaseUser {
     id: number;
     email: string;
     login: string;
     first_name: string;
     last_name: string;
     usual_full_name: string;
-    usual_first_name: string | null;
+    usual_first_name: null;
     url: string;
     phone: string;
     displayname: string;
@@ -176,9 +176,12 @@ interface User {
     data_erasure_date: string;
     created_at: string;
     updated_at: string;
-    alumnized_at: string | null;
+    alumnized_at: null;
     "alumni?": boolean;
     "active?": boolean;
+}
+
+interface User extends BaseUser {
     groups: any[];
     cursus_users: CursusUser[];
     projects_users: ProjectUser[];

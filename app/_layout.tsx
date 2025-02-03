@@ -21,6 +21,8 @@ export default function RootLayout() {
         const accessToken = SecureStore.getItem("access_token");
         const refreshToken = SecureStore.getItem("refresh_token");
 
+        console.log(accessToken);
+
         if (!accessToken || !refreshToken) {
             router.replace("/");
         } else {

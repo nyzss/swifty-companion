@@ -1,13 +1,24 @@
 import { makeRedirectUri } from "expo-auth-session";
 import { BASE_URL } from "./constants";
+import * as SecureStore from "expo-secure-store";
+
+export const fetcher = async (url: string, options: RequestInit = {}) => {
+    const headers = new Headers(options.headers);
+
+    const accessToken = await SecureStore.getItemAsync("access_token");
+    headers.append("Authorization", `Bearer ${accessToken}`);
+
+    const res = await fetch(`${BASE_URL}/${url}`, {
+        ...options,
+        headers,
+    });
+
+    return res;
+};
 
 export const getInformation = async (token: string) => {
     try {
-        const res = await fetch(`${BASE_URL}/me`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const res = await fetcher("/me");
 
         if (!res.ok) {
             throw new Error("Failed to fetch information");
@@ -51,6 +62,24 @@ export const getAccessToken = async (code: string): Promise<Token | null> => {
 
         return data;
     } catch (error) {
+        return null;
+    }
+};
+
+export const listUsers = async (login: string) => {
+    try {
+        const res = await fetcher(`/users?range[login]=${login},${login}z`);
+
+        const data: BaseUser[] = await res.json();
+
+        if (!res.ok) {
+            console.error("LIST USERS", data);
+            throw new Error("Failed to fetch users");
+        }
+
+        return data;
+    } catch (error) {
+        console.log(error);
         return null;
     }
 };
