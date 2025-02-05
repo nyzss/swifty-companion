@@ -1,14 +1,14 @@
 import { router, Stack } from "expo-router";
+import React, { useEffect } from "react";
 import { createTamagui, TamaguiProvider, Theme } from "tamagui";
+
 import { defaultConfig } from "@tamagui/config/v4";
-import { useColorScheme } from "react-native";
-import { useEffect } from "react";
-import * as SecureStore from "expo-secure-store";
 import { makeRedirectUri } from "expo-auth-session";
+import * as SecureStore from "expo-secure-store";
+import { useColorScheme } from "react-native";
 
 const config = createTamagui(defaultConfig);
-
-export default function RootLayout() {
+export default function Layout() {
     const scheme = useColorScheme();
 
     useEffect(() => {
@@ -34,34 +34,10 @@ export default function RootLayout() {
         <TamaguiProvider config={config} defaultTheme="dark">
             <Theme name={scheme}>
                 <Stack
-                // screenOptions={{
-                //     headerStyle: {
-                //         backgroundColor:
-                //             scheme === "dark" ? "#191919" : "#f0f0f0",
-                //     },
-                //     headerTintColor: "$color1",
-                //     headerTitleStyle: {
-                //         fontWeight: "bold",
-                //     },
-                // }}
-                // screenOptions={{
-                //     headerShown: false,
-                // }}
-                >
-                    <Stack.Screen
-                        name="index"
-                        options={{
-                            title: "Auth",
-                        }}
-                    />
-                    <Stack.Screen
-                        name="(app)"
-                        options={{
-                            title: "Companion",
-                            headerShown: false,
-                        }}
-                    />
-                </Stack>
+                    screenOptions={{
+                        headerShown: false,
+                    }}
+                />
             </Theme>
         </TamaguiProvider>
     );

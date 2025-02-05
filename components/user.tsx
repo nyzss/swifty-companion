@@ -1,5 +1,9 @@
 import { FlashList } from "@shopify/flash-list";
-import { IconFlask, IconMoneybag } from "@tabler/icons-react-native";
+import {
+    IconFlask,
+    IconMoneybag,
+    IconWallet,
+} from "@tabler/icons-react-native";
 import React, { useMemo } from "react";
 import { useColorScheme } from "react-native";
 import {
@@ -101,9 +105,9 @@ export default function UserCard({ user }: { user: User }) {
                         <XStack>
                             <View>
                                 <Text
-                                    fontWeight={"bold"}
+                                    fontWeight={"600"}
                                     fontSize={"$3"}
-                                    color={"$color9"}
+                                    color={"$color11"}
                                 >
                                     Correc. Points
                                 </Text>
@@ -122,21 +126,25 @@ export default function UserCard({ user }: { user: User }) {
 
                             <View>
                                 <Text
-                                    fontWeight={"bold"}
+                                    fontWeight={"600"}
                                     fontSize={"$3"}
-                                    color={"$color9"}
+                                    color={"$color11"}
                                 >
                                     Wallet
                                 </Text>
-                                <Text fontSize={"$12"} fontWeight={"900"}>
-                                    {user.wallet}{" "}
-                                    <IconMoneybag
-                                        size={32}
-                                        color={
-                                            theme === "dark" ? "white" : "black"
-                                        }
-                                    />
-                                </Text>
+                                <XStack alignItems="flex-end">
+                                    <Text fontSize={"$12"} fontWeight={"900"}>
+                                        {user.wallet}{" "}
+                                        <IconWallet
+                                            size={32}
+                                            color={
+                                                theme === "dark"
+                                                    ? "white"
+                                                    : "black"
+                                            }
+                                        />
+                                    </Text>
+                                </XStack>
                             </View>
                         </XStack>
                     </View>
@@ -164,8 +172,8 @@ export default function UserCard({ user }: { user: User }) {
                                             fontSize={"$4"}
                                             color={
                                                 item.final_mark === 0
-                                                    ? "$red11"
-                                                    : "black"
+                                                    ? "$red9"
+                                                    : "$color"
                                             }
                                         >
                                             {item.project.name.slice(0, 30)}
@@ -177,8 +185,8 @@ export default function UserCard({ user }: { user: User }) {
                                             fontSize={"$3"}
                                             color={
                                                 item.final_mark === 0
-                                                    ? "$red11"
-                                                    : "black"
+                                                    ? "$red9"
+                                                    : "$color"
                                             }
                                         >
                                             {item.marked

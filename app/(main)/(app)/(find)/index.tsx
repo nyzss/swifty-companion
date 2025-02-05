@@ -67,10 +67,14 @@ export default function Find() {
                 </YStack>
             )) || (
                 <YStack flex={1}>
-                    <Text marginVertical={"$3"}>
-                        Found {users?.length || 0} users for{" "}
-                        <Text fontWeight={"bold"}>'{search}'</Text>
-                    </Text>
+                    {users && (
+                        <Text marginVertical={"$3"}>
+                            Found {users?.length || 0} users for{" "}
+                            <Text fontWeight={"bold"}>
+                                {(search && `'${search}'`) || "Empty search"}
+                            </Text>
+                        </Text>
+                    )}
                     <FlashList
                         data={users}
                         ListEmptyComponent={() => (
@@ -94,12 +98,17 @@ export default function Find() {
                                         alignItems="center"
                                         justifyContent="space-between"
                                     >
-                                        <Text
-                                            fontWeight={"bold"}
-                                            fontSize={"$6"}
-                                        >
-                                            {item.login}
-                                        </Text>
+                                        <YStack gap={"$2"}>
+                                            <Text
+                                                fontWeight={"bold"}
+                                                fontSize={"$6"}
+                                            >
+                                                {item.login}
+                                            </Text>
+                                            <Text fontSize={"$3"}>
+                                                {item.usual_full_name || ""}
+                                            </Text>
+                                        </YStack>
                                         {(item.image.link && (
                                             <Image
                                                 borderRadius={8}
