@@ -1,6 +1,7 @@
 import { listUsers } from "@/lib/utils";
 import { FlashList } from "@shopify/flash-list";
-import { IconSearch } from "@tabler/icons-react-native";
+import { IconSearch, IconUser } from "@tabler/icons-react-native";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { useColorScheme } from "react-native";
 import { Button, Card, Image, Input, Label, Text, View, XStack } from "tamagui";
@@ -32,6 +33,7 @@ export default function Find() {
                     flex={1}
                     placeholder="okoca"
                     size={"$5"}
+                    onSubmitEditing={handleSubmit}
                 />
                 <Button marginLeft={"$3"} onPress={handleSubmit}>
                     <IconSearch color={theme === "dark" ? "white" : "black"} />
@@ -55,7 +57,7 @@ export default function Find() {
                         bordered
                         marginVertical={"$3"}
                         onPress={() => {
-                            console.log(item);
+                            router.push(`./user/${item.id}`);
                         }}
                     >
                         <XStack
@@ -65,16 +67,24 @@ export default function Find() {
                             <Text fontWeight={"bold"} fontSize={"$6"}>
                                 {item.login}
                             </Text>
-                            <Image
-                                borderRadius={8}
-                                source={{
-                                    uri:
-                                        item.image.versions.small ||
-                                        item.image.link,
-                                    width: 70,
-                                    height: 70,
-                                }}
-                            />
+                            {(item.image.link && (
+                                <Image
+                                    borderRadius={8}
+                                    source={{
+                                        uri:
+                                            item.image.versions.small ||
+                                            item.image.link ||
+                                            "",
+                                        width: 70,
+                                        height: 70,
+                                    }}
+                                />
+                            )) || (
+                                <IconUser
+                                    size={70}
+                                    color={theme === "dark" ? "white" : "black"}
+                                />
+                            )}
                         </XStack>
                     </Card>
                 )}

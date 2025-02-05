@@ -6,8 +6,8 @@ import { logout } from "@/lib/auth";
 export default function Index() {
     const theme = useColorScheme();
 
-    const changeTheme = () =>
-        Appearance.setColorScheme(theme === "dark" ? "light" : "dark");
+    // const changeTheme = () =>
+    //     Appearance.setColorScheme(theme === "dark" ? "light" : "dark");
 
     return (
         <View
@@ -16,11 +16,12 @@ export default function Index() {
                 justifyContent: "center",
                 alignItems: "center",
             }}
+            padding={"$5"}
         >
-            <Text fontWeight={"bold"} fontSize={80}>
-                title
+            <Text paddingBottom={"$7"} fontSize={"$5"} fontWeight={"bold"}>
+                Settings
             </Text>
-            <Button
+            {/* <Button
                 onPress={changeTheme}
                 icon={
                     theme === "dark" ? (
@@ -32,7 +33,7 @@ export default function Index() {
                 fontWeight={"bold"}
             >
                 Change Theme
-            </Button>
+            </Button> */}
             <Button
                 onPress={logout}
                 marginTop={"auto"}
@@ -41,7 +42,7 @@ export default function Index() {
                 alignSelf="center"
                 icon={
                     <IconLogout
-                        color={theme === "dark" ? "dark" : "white"}
+                        color={theme === "dark" ? "black" : "white"}
                         size={22}
                     />
                 }

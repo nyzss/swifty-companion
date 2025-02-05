@@ -52,6 +52,7 @@ export default function Layout() {
                         ),
                     }}
                 />
+                <Tabs.Screen name="user/[id]" options={{ href: null }} />
             </Tabs>
         </Theme>
     );
