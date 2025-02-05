@@ -28,9 +28,11 @@ export default function UserCard({ user }: { user: User }) {
     }, [user]);
 
     const sortedProjects = useMemo(() => {
+        const id = mainCursus ? mainCursus.cursus_id : 0;
+        const c = user.projects_users.filter((p) => p.cursus_ids.includes(id));
         return [
-            ...user.projects_users.filter((p) => p.status === "in_progress"),
-            ...user.projects_users.filter((p) => p.status === "finished"),
+            ...c.filter((p) => p.status === "in_progress"),
+            ...c.filter((p) => p.status === "finished"),
         ];
     }, [user]);
 
@@ -93,6 +95,7 @@ export default function UserCard({ user }: { user: User }) {
                                 No level
                             </Text>
                         )}
+
                         <Separator marginVertical={"$4"} />
 
                         <XStack>
@@ -147,23 +150,40 @@ export default function UserCard({ user }: { user: User }) {
                     </Card.Header>
 
                     <View paddingHorizontal={"$4"}>
-                        <ScrollView height={150}>
+                        <ScrollView height={"175"}>
                             <FlashList
                                 data={sortedProjects}
                                 estimatedItemSize={17}
                                 renderItem={({ item }) => (
-                                    <XStack justifyContent="space-between">
+                                    <XStack
+                                        justifyContent="space-between"
+                                        paddingVertical={4}
+                                    >
                                         <Text
                                             fontWeight={"bold"}
                                             fontSize={"$4"}
+                                            color={
+                                                item.final_mark === 0
+                                                    ? "$red11"
+                                                    : "black"
+                                            }
                                         >
-                                            {item.project.name}
+                                            {item.project.name.slice(0, 30)}
+                                            {item.project.name.length > 30 &&
+                                                "..."}
                                         </Text>
                                         <Text
                                             fontWeight={"bold"}
                                             fontSize={"$3"}
+                                            color={
+                                                item.final_mark === 0
+                                                    ? "$red11"
+                                                    : "black"
+                                            }
                                         >
-                                            {item.final_mark || "In Progress"}
+                                            {item.marked
+                                                ? item.final_mark
+                                                : "In Progress"}
                                         </Text>
                                     </XStack>
                                 )}
