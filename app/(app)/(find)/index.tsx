@@ -49,7 +49,12 @@ export default function Find() {
                     size={"$5"}
                     onSubmitEditing={handleSubmit}
                 />
-                <Button marginLeft={"$3"} onPress={handleSubmit}>
+                <Button
+                    marginLeft={"$3"}
+                    onPress={handleSubmit}
+                    size={"$5"}
+                    paddingHorizontal={"$3"}
+                >
                     <IconSearch color={theme === "dark" ? "white" : "black"} />
                 </Button>
             </XStack>
@@ -61,55 +66,70 @@ export default function Find() {
                     <Spinner size="large" />
                 </YStack>
             )) || (
-                <FlashList
-                    data={users}
-                    ListEmptyComponent={() => (
-                        <View marginVertical={"$4"}>
-                            <Text>
-                                {users?.length === 0 && search
-                                    ? "No user found"
-                                    : ""}
-                            </Text>
-                        </View>
-                    )}
-                    renderItem={({ item }) => (
-                        <Link href={`/user/${item.id}`} asChild>
-                            <Card padded elevate bordered marginVertical={"$3"}>
-                                <XStack
-                                    alignItems="center"
-                                    justifyContent="space-between"
+                <YStack flex={1}>
+                    <Text marginVertical={"$3"}>
+                        Found {users?.length || 0} users for{" "}
+                        <Text fontWeight={"bold"}>'{search}'</Text>
+                    </Text>
+                    <FlashList
+                        data={users}
+                        ListEmptyComponent={() => (
+                            <View marginVertical={"$4"}>
+                                <Text>
+                                    {users?.length === 0 && search
+                                        ? "No user found"
+                                        : ""}
+                                </Text>
+                            </View>
+                        )}
+                        renderItem={({ item }) => (
+                            <Link href={`/user/${item.id}`} asChild>
+                                <Card
+                                    padded
+                                    elevate
+                                    bordered
+                                    marginVertical={"$3"}
                                 >
-                                    <Text fontWeight={"bold"} fontSize={"$6"}>
-                                        {item.login}
-                                    </Text>
-                                    {(item.image.link && (
-                                        <Image
-                                            borderRadius={8}
-                                            source={{
-                                                uri:
-                                                    item.image.versions.small ||
-                                                    item.image.link ||
-                                                    "",
-                                                width: 70,
-                                                height: 70,
-                                            }}
-                                        />
-                                    )) || (
-                                        <IconUser
-                                            size={70}
-                                            color={
-                                                theme === "dark"
-                                                    ? "white"
-                                                    : "black"
-                                            }
-                                        />
-                                    )}
-                                </XStack>
-                            </Card>
-                        </Link>
-                    )}
-                    estimatedItemSize={125}
-                />
+                                    <XStack
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                    >
+                                        <Text
+                                            fontWeight={"bold"}
+                                            fontSize={"$6"}
+                                        >
+                                            {item.login}
+                                        </Text>
+                                        {(item.image.link && (
+                                            <Image
+                                                borderRadius={8}
+                                                source={{
+                                                    uri:
+                                                        item.image.versions
+                                                            .small ||
+                                                        item.image.link ||
+                                                        "",
+                                                    width: 70,
+                                                    height: 70,
+                                                }}
+                                            />
+                                        )) || (
+                                            <IconUser
+                                                size={70}
+                                                color={
+                                                    theme === "dark"
+                                                        ? "white"
+                                                        : "black"
+                                                }
+                                            />
+                                        )}
+                                    </XStack>
+                                </Card>
+                            </Link>
+                        )}
+                        estimatedItemSize={125}
+                    />
+                </YStack>
             )}
         </View>
     );
