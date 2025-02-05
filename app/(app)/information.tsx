@@ -11,20 +11,14 @@ export default function Information() {
     const theme = useColorScheme();
 
     useEffect(() => {
-        const accessToken = SecureStore.getItem("access_token");
-
-        if (!accessToken) {
-            router.replace("/");
-        } else {
-            getInformation(accessToken).then((data) => {
-                console.log("FETCHED_DATA", data);
-                if (data) {
-                    setUser(data);
-                } else if (data === null) {
-                    router.replace("/");
-                }
-            });
-        }
+        getInformation().then((data) => {
+            console.log("FETCHED_DATA", data);
+            if (data) {
+                setUser(data);
+            } else if (data === null) {
+                router.replace("/");
+            }
+        });
     }, []);
 
     return (

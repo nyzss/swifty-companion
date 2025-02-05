@@ -1,6 +1,7 @@
 import { makeRedirectUri } from "expo-auth-session";
 import { BASE_URL } from "./constants";
 import * as SecureStore from "expo-secure-store";
+import { router } from "expo-router";
 
 export const refreshToken = async () => {
     const refreshToken = await SecureStore.getItemAsync("refresh_token");
@@ -26,7 +27,10 @@ export const refreshToken = async () => {
 
     if (!res.ok) {
         console.error(data);
-        throw new Error("Failed to refresh token");
+        await SecureStore.deleteItemAsync("access_token");
+        await SecureStore.deleteItemAsync("refresh_token");
+        await SecureStore.deleteItemAsync("raw");
+        router.replace("/");
     }
 
     await SecureStore.setItemAsync("access_token", data.access_token);
@@ -35,12 +39,11 @@ export const refreshToken = async () => {
 };
 
 export const fetcher = async (url: string, options: RequestInit = {}) => {
-    const headers = new Headers(options.headers);
-
-    const accessToken = await SecureStore.getItemAsync("access_token");
-    headers.append("Authorization", `Bearer ${accessToken}`);
-
     const f = async () => {
+        const headers = new Headers(options.headers);
+
+        const accessToken = await SecureStore.getItemAsync("access_token");
+        headers.set("Authorization", `Bearer ${accessToken}`);
         const res = await fetch(`${BASE_URL}/${url}`, {
             ...options,
             headers,
@@ -58,7 +61,7 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
     return res;
 };
 
-export const getInformation = async (token: string) => {
+export const getInformation = async () => {
     try {
         const res = await fetcher("/me");
 
