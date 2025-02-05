@@ -81,13 +81,9 @@ export default function UserCard({ user }: { user: User }) {
                                 <Text>Level {mainCursus?.level}</Text>
                                 <Progress
                                     size={"$6"}
-                                    value={
-                                        mainCursus
-                                            ? Math.floor(
-                                                  (mainCursus.level % 1) * 100
-                                              )
-                                            : 0
-                                    }
+                                    value={Math.floor(
+                                        (mainCursus.level % 1) * 100
+                                    )}
                                     bordered
                                 >
                                     <Progress.Indicator animation={"bouncy"} />
