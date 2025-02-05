@@ -88,7 +88,7 @@ export default function Find() {
                         </XStack>
                     </Card>
                 )}
-                estimatedItemSize={20}
+                estimatedItemSize={125}
             />
         </View>
     );

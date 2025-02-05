@@ -40,13 +40,19 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
     const accessToken = await SecureStore.getItemAsync("access_token");
     headers.append("Authorization", `Bearer ${accessToken}`);
 
-    const res = await fetch(`${BASE_URL}/${url}`, {
-        ...options,
-        headers,
-    });
+    const f = async () => {
+        const res = await fetch(`${BASE_URL}/${url}`, {
+            ...options,
+            headers,
+        });
+        return res;
+    };
+
+    const res = await f();
 
     if (res.status === 401) {
         await refreshToken();
+        return await f();
     }
 
     return res;
