@@ -1,7 +1,8 @@
-import { View, Text, Button } from "tamagui";
-import { Appearance, useColorScheme } from "react-native";
-import { IconLogout, IconMoon, IconSun } from "@tabler/icons-react-native";
 import { logout } from "@/lib/auth";
+import { IconLogout } from "@tabler/icons-react-native";
+import { Link } from "expo-router";
+import { useColorScheme } from "react-native";
+import { Button, Text, View } from "tamagui";
 
 export default function Index() {
     const theme = useColorScheme();
@@ -34,21 +35,23 @@ export default function Index() {
             >
                 Change Theme
             </Button> */}
-            <Button
-                onPress={logout}
-                marginTop={"auto"}
-                marginBottom={"$7"}
-                themeInverse
-                alignSelf="center"
-                icon={
-                    <IconLogout
-                        color={theme === "dark" ? "black" : "white"}
-                        size={22}
-                    />
-                }
-            >
-                <Text fontWeight={"bold"}>Logout</Text>
-            </Button>
+            <Link asChild href={"../../"} replace>
+                <Button
+                    onPress={logout}
+                    marginTop={"auto"}
+                    marginBottom={"$7"}
+                    themeInverse
+                    alignSelf="center"
+                    icon={
+                        <IconLogout
+                            color={theme === "dark" ? "black" : "white"}
+                            size={22}
+                        />
+                    }
+                >
+                    <Text fontWeight={"bold"}>Logout</Text>
+                </Button>
+            </Link>
         </View>
     );
 }

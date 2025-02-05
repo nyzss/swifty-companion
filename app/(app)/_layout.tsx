@@ -14,7 +14,6 @@ export default function Layout() {
                         theme === "dark" ? "#ffffff" : "#0f0f0f",
                     tabBarInactiveTintColor:
                         theme === "dark" ? "#d2d2d2" : "#6c6c6c",
-                    headerShown: false,
                     sceneStyle: {
                         backgroundColor:
                             theme === "dark" ? "#222222" : "#f0f0f0",
@@ -37,10 +36,11 @@ export default function Layout() {
                     }}
                 />
                 <Tabs.Screen
-                    name="find"
+                    name="(find)"
                     options={{
                         title: "Find",
                         tabBarIcon: (props) => <IconUser color={props.color} />,
+                        headerShown: false,
                     }}
                 />
                 <Tabs.Screen
@@ -52,7 +52,6 @@ export default function Layout() {
                         ),
                     }}
                 />
-                <Tabs.Screen name="user/[id]" options={{ href: null }} />
             </Tabs>
         </Theme>
     );

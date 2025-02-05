@@ -34,16 +34,19 @@ export default function RootLayout() {
         <TamaguiProvider config={config} defaultTheme="dark">
             <Theme name={scheme}>
                 <Stack
-                    screenOptions={{
-                        headerStyle: {
-                            backgroundColor:
-                                scheme === "dark" ? "#191919" : "#f0f0f0",
-                        },
-                        headerTintColor: "$color1",
-                        headerTitleStyle: {
-                            fontWeight: "bold",
-                        },
-                    }}
+                // screenOptions={{
+                //     headerStyle: {
+                //         backgroundColor:
+                //             scheme === "dark" ? "#191919" : "#f0f0f0",
+                //     },
+                //     headerTintColor: "$color1",
+                //     headerTitleStyle: {
+                //         fontWeight: "bold",
+                //     },
+                // }}
+                // screenOptions={{
+                //     headerShown: false,
+                // }}
                 >
                     <Stack.Screen
                         name="index"
@@ -55,6 +58,7 @@ export default function RootLayout() {
                         name="(app)"
                         options={{
                             title: "Companion",
+                            headerShown: false,
                         }}
                     />
                 </Stack>
