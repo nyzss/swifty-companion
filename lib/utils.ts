@@ -2,6 +2,38 @@ import { makeRedirectUri } from "expo-auth-session";
 import { BASE_URL } from "./constants";
 import * as SecureStore from "expo-secure-store";
 
+export const refreshToken = async () => {
+    const refreshToken = await SecureStore.getItemAsync("refresh_token");
+
+    const formData = new FormData();
+    const params = {
+        grant_type: "refresh_token",
+        refresh_token: refreshToken || "",
+        client_id: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_ID || "",
+        client_secret: process.env.EXPO_PUBLIC_OAUTH2_CLIENT_SECRET || "",
+    };
+
+    Object.entries(params).forEach(([key, value]) => {
+        formData.append(key, value);
+    });
+
+    const res = await fetch(`https://api.intra.42.fr/oauth/token`, {
+        method: "POST",
+        body: formData,
+    });
+
+    const data: Token = await res.json();
+
+    if (!res.ok) {
+        console.error(data);
+        throw new Error("Failed to refresh token");
+    }
+
+    await SecureStore.setItemAsync("access_token", data.access_token);
+    await SecureStore.setItemAsync("refresh_token", data.refresh_token);
+    await SecureStore.setItemAsync("raw", JSON.stringify(data));
+};
+
 export const fetcher = async (url: string, options: RequestInit = {}) => {
     const headers = new Headers(options.headers);
 
@@ -12,6 +44,10 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
         ...options,
         headers,
     });
+
+    if (res.status === 401) {
+        await refreshToken();
+    }
 
     return res;
 };

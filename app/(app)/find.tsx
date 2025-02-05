@@ -46,7 +46,7 @@ export default function Find() {
                         <Text>
                             {users?.length === 0 && search
                                 ? "No user found"
-                                : "Search for a user"}
+                                : ""}
                         </Text>
                     </View>
                 )}
