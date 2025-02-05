@@ -1,9 +1,5 @@
 import { FlashList } from "@shopify/flash-list";
-import {
-    IconFlask,
-    IconMoneybag,
-    IconWallet,
-} from "@tabler/icons-react-native";
+import { IconFlask, IconWallet } from "@tabler/icons-react-native";
 import React, { useMemo } from "react";
 import { useColorScheme } from "react-native";
 import {
@@ -86,8 +82,11 @@ export default function UserCard({ user }: { user: User }) {
                                 <Progress
                                     size={"$6"}
                                     value={
-                                        mainCursus &&
-                                        (mainCursus.level % 1) * 100
+                                        mainCursus
+                                            ? Math.floor(
+                                                  (mainCursus.level % 1) * 100
+                                              )
+                                            : 0
                                     }
                                     bordered
                                 >
