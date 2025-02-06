@@ -25,7 +25,7 @@ export default function Layout() {
                 options={{
                     title: "Find",
                 }}
-                name="index"
+                name="find"
             />
             <Stack.Screen
                 name="user/[id]"

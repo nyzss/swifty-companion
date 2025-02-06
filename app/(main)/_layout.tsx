@@ -17,6 +17,9 @@ export default function RootLayout() {
                 headerTitleStyle: {
                     fontWeight: "bold",
                 },
+                contentStyle: {
+                    backgroundColor: backgroundColor,
+                },
             }}
         >
             <Stack.Screen

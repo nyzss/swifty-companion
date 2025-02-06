@@ -10,7 +10,10 @@
         "newArchEnabled": true,
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.okoca.companion42"
+            "bundleIdentifier": "com.okoca.companion42",
+            "infoPlist": {
+                "ITSAppUsesNonExemptEncryption": false
+            }
         },
         "android": {
             "adaptiveIcon": {
@@ -38,6 +41,14 @@
         ],
         "experiments": {
             "typedRoutes": true
+        },
+        "extra": {
+            "router": {
+                "origin": false
+            },
+            "eas": {
+                "projectId": "71b5bb2f-a5ab-4e87-b043-c9d1ff3e4d7e"
+            }
         }
     }
 }
