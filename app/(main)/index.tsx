@@ -51,7 +51,6 @@ export default function Index() {
                         "raw",
                         JSON.stringify(accessToken)
                     );
-                    console.log("TOKEN", accessToken);
                     router.replace("/information");
                 } else {
                     setError(true);

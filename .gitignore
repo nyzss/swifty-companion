@@ -2,7 +2,9 @@
 
 .env
 ios
+android
 sample.json
+.idea
 
 # dependencies
 node_modules/

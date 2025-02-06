@@ -10,9 +10,6 @@ export default function Layout() {
     const color = theme.$color?.val;
     const secondary = theme.$color10?.val;
 
-    useEffect(() => {
-        console.log(theme);
-    }, []);
     return (
         <Tabs
             screenOptions={{

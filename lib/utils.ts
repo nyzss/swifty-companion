@@ -134,7 +134,6 @@ export const getUserById = async (id: number) => {
         const res = await fetcher(`/users/${id}`);
 
         const data: User = await res.json();
-        console.log("DATA", data);
 
         if (!res.ok) {
             console.error("GET_USER_BY_ID", data);

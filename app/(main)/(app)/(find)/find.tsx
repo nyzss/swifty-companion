@@ -26,7 +26,6 @@ export default function Find() {
     const handleSubmit = async () => {
         setLoading(true);
         const users = await listUsers(search);
-        console.log(users);
 
         if (users) {
             setUsers(users);

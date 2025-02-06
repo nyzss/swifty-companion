@@ -12,7 +12,6 @@ export default function Information() {
 
     useEffect(() => {
         getInformation().then((data) => {
-            console.log("FETCHED_DATA", data);
             if (data) {
                 setUser(data);
             } else if (data === null) {
