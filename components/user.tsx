@@ -22,13 +22,22 @@ export default function UserCard({ user }: { user: User }) {
             return c.cursus.kind === "main";
         });
 
-        if (!cursus)
-            return user.cursus_users.find((c) => c.cursus.kind === "piscine");
-        return cursus;
+        if (cursus) return cursus;
+
+        const piscine = user.cursus_users.find(
+            (c) => c.cursus.kind === "piscine"
+        );
+        if (piscine) return piscine;
+
+        const first = user.cursus_users[0];
+        if (first) return first;
+
+        return null;
     }, [user]);
 
     const sortedProjects = useMemo(() => {
-        const id = mainCursus ? mainCursus.cursus_id : 0;
+        if (!mainCursus) return [];
+        const id = mainCursus.cursus_id;
         const c = user.projects_users.filter((p) => p.cursus_ids.includes(id));
         return [
             ...c.filter((p) => p.status === "in_progress"),
@@ -78,7 +87,7 @@ export default function UserCard({ user }: { user: User }) {
                     <View paddingHorizontal={"$4"} paddingBottom={"$4"}>
                         {(mainCursus && mainCursus.level && (
                             <YStack gap={"$2"}>
-                                <Text>Level {mainCursus?.level}</Text>
+                                <Text>Level {mainCursus.level}</Text>
                                 <Progress
                                     size={"$6"}
                                     value={Math.floor(
@@ -157,6 +166,9 @@ export default function UserCard({ user }: { user: User }) {
                             <FlashList
                                 data={sortedProjects}
                                 estimatedItemSize={17}
+                                ListEmptyComponent={
+                                    <Text>No projects found</Text>
+                                }
                                 renderItem={({ item }) => (
                                     <XStack
                                         justifyContent="space-between"
